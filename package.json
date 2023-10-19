@@ -1,14 +1,18 @@
 {
-  "name": "static-site",
+  "name": "readme-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "A command-line tool to quickly and easily generate a new README",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "trnigg",
+  "license": "MIT",
   "dependencies": {
     "inquirer": "8.2.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "README-generator"
   }
 }
