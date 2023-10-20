@@ -4,14 +4,16 @@ var fs = require('fs');
 // const generateMarkdown = require('./utils/generateMarkdown');
 
 
-// GLOBAL VARIABLES for console text colours. Combined Module 9 Activity 22 with guide here: 
+// GLOBAL VARIABLES for console text colours. Combined Module 9 Activity 22 with colour numbers found here: 
 // https://dev.to/ifenna__/adding-colors-to-bash-scripts-48g4
-//TODO [TN]: Create an key:value object for different text colours
-const redTextCol = '\x1b[31m';
-const greenTextCol = '\x1b[32m';
-const yellowTextCol = '\x1b[33m';
-const greyTextCol = '\x1b[90m';
-const endTextCol = '\x1b[0m';
+const textColors = {
+    red: '\x1b[31m',
+    green: '\x1b[32m',
+    yellow: '\x1b[33m',
+    grey: '\x1b[90m',
+    end: '\x1b[0m',
+};
+
 
 const licenseArray = [
     'GNU AGPLv3',
@@ -134,13 +136,13 @@ function askQuestions() {
     .prompt(confirmInstructions)
     .then((confirmResponse) => {
         if (confirmResponse.understood) {
-            console.log(`${greenTextCol}Thank you.${endTextCol}`);
+            console.log(`${textColors.green}Thank you.${textColors.end}`);
             inquirer
             .prompt(readmeQuestions)
             .then((responses) =>
                 console.log(responses));
         } else {
-            console.log(`${redTextCol}Ending the README generator.${endTextCol} Please feel free to start again by entering ${yellowTextCol}'node index.js'${endTextCol} in your console.`);
+            console.log(`${textColors.red}Ending the README generator.${textColors.end} Please feel free to start again by entering ${textColors.yellow}'node index.js'${textColors.end} in your console.`);
             return;
         }
     });
