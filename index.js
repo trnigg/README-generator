@@ -1,17 +1,19 @@
 // TODO: Include packages needed for this application
 var inquirer = require('inquirer');
 var fs = require('fs');
-// const generateMarkdown = require('./utils/generateMarkdown');
+const generateMarkdown = require('./utils/generateMarkdown');
 
 
-// GLOBAL VARIABLES for console text colours. Combined Module 9 Activity 22 with guide here: 
+// GLOBAL VARIABLES for console text colours. Combined Module 9 Activity 22 with colour numbers found here: 
 // https://dev.to/ifenna__/adding-colors-to-bash-scripts-48g4
-//TODO [TN]: Create an key:value object for different text colours
-const redTextCol = '\x1b[31m';
-const greenTextCol = '\x1b[32m';
-const yellowTextCol = '\x1b[33m';
-const greyTextCol = '\x1b[90m';
-const endTextCol = '\x1b[0m';
+const textColors = {
+    red: '\x1b[31m',
+    green: '\x1b[32m',
+    yellow: '\x1b[33m',
+    grey: '\x1b[90m',
+    end: '\x1b[0m',
+};
+
 
 const licenseArray = [
     'GNU AGPLv3',
@@ -30,17 +32,17 @@ const confirmInstructions =
         type: 'confirm',
         name: 'understood',
         message: 'Please confirm that you understand and wish to continue:',
-        default: false,
-        // validate: (understood) => {
-        //     if (understood !== 'y' || understood !== 'n') {
-        //       return 'Cannot be left blank. Please enter a title.'
-        //     }
-        //     return true;
-        // } 
+        default: false, 
     };
+
+// Following guides is comprehensive account (beyond the docs) of how to use Inquirer: 
+// https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f
+// Also helpful: https://geshan.com.np/blog/2023/03/inquirer-js/ 
+// This was helpful in introducing 'validate' and 'when' keys.
 
 // TODO [TN]: Confirm arrows are okay within this array/objects
 // FIX validation for 'confirm questions'
+
 const readmeQuestions = [
     {
         type: 'input',
@@ -125,25 +127,25 @@ const readmeQuestions = [
     },
 ];
 
-// Following guides is comprehensive account (beyond the docs) of how to use Inquirer: 
-// https://javascript.plainenglish.io/how-to-inquirer-js-c10a4e05ef1f
-// Also helpful: https://geshan.com.np/blog/2023/03/inquirer-js/ 
+
 
 function askQuestions() {
     inquirer
-    .prompt(confirmInstructions)
-    .then((confirmResponse) => {
-        if (confirmResponse.understood) {
-            console.log(`${greenTextCol}Thank you.${endTextCol}`);
-            inquirer
-            .prompt(readmeQuestions)
-            .then((responses) =>
-                console.log(responses));
-        } else {
-            console.log(`${redTextCol}Ending the README generator.${endTextCol} Please feel free to start again by entering ${yellowTextCol}'node index.js'${endTextCol} in your console.`);
-            return;
-        }
-    });
+        .prompt(confirmInstructions)
+        .then((confirmResponse) => {
+            if (confirmResponse.understood) {
+                console.log(`${textColors.green}Thank you.${textColors.end}`);
+                inquirer
+                    .prompt(readmeQuestions)
+                    .then((responses) => {
+                        console.log(responses);
+                        writeToFile(responses);
+                    });
+            } else {
+                console.log(`${textColors.red}Ending the README generator.${textColors.end} Please feel free to start again by entering ${textColors.yellow}'node index.js'${textColors.end} in your console.`);
+                return;
+            }
+        });
 }
 
 
@@ -152,7 +154,15 @@ function askQuestions() {
 
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(responses) {
+    fs.writeFile('testME.md', generateMarkdown(responses), (err) => {
+        if (err) {
+          console.error('Error writing README file:', err);
+        } else {
+          console.log('README.md generated successfully.');
+        }
+      });
+}
 
 // TODO: Create a function to initialize app
 function init() {
