@@ -58,7 +58,7 @@ const readmeQuestions = [
     },
     {
         type: 'confirm',
-        name: 'provideEmail',
+        name: 'includeEmail',
         default: false,
         message: 'Would you like to provide your email address as a point of contact?',
     },
@@ -66,7 +66,7 @@ const readmeQuestions = [
         type: 'input',
         name: 'email',
         message: 'Please provide your email address:',
-        when: (responses) => responses.provideEmail,
+        when: (responses) => responses.includeEmail,
         validate: (email) => (email.length ? true : 'Cannot be left blank. Please enter your email address.'),
     },
     {
@@ -86,6 +86,19 @@ const readmeQuestions = [
         name: 'usage',
         message: 'Please briefly explain how to use the application/project:',
         validate: (usage) => (usage.length ? true : 'Cannot be left blank. Please enter a brief guide for usage.'),
+    },
+    {
+        type: 'confirm',
+        name: 'hasTests',
+        default: false,
+        message: 'Does your project include any tests?',
+    },
+    {
+        type: 'input',
+        name: 'tests',
+        message: 'Please briefly describe how to run the tests for your project:',
+        when: (responses) => responses.hasTests,
+        validate: (tests) => (tests.length ? true : 'Cannot be left blank. Please explain how someone can run the tests for your project.'),
     },
     {
         type: 'confirm',
@@ -114,19 +127,7 @@ const readmeQuestions = [
         default: 'MIT',
         when: (responses) => responses.includeLicense,
     },
-    {
-        type: 'confirm',
-        name: 'hasTests',
-        default: false,
-        message: 'Does your project include any tests?',
-    },
-    {
-        type: 'input',
-        name: 'tests',
-        message: 'Please briefly describe how to run the tests for your project:',
-        when: (responses) => responses.hasTests,
-        validate: (tests) => (tests.length ? true : 'Cannot be left blank. Please explain how someone can run the tests for your project.'),
-    },
+
 ];
 
 
