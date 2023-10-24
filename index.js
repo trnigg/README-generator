@@ -41,63 +41,64 @@ const confirmInstructions =
 // This was helpful in introducing 'validate' and 'when' keys.
 
 // TODO [TN]: Confirm arrows are okay within this array/objects
-// FIX validation for 'confirm questions'
+// FIX validation for 'confirm questions'. Improve with eg: (title) => (title.length ? true : 'Cannot be left blank. Please enter a title.'),
 
 const readmeQuestions = [
     {
         type: 'input',
         name: 'title',
         message: 'What is the title of your project?',
-        validate: (title) => {
-            if (!title.length) {
-              return 'Cannot be left blank. Please enter a title.'
-            }
-            return true;
-        } 
+        validate: (title) => (title.length ? true : 'Cannot be left blank. Please enter a title.'),
     },
     {
         type: 'input',
         name: 'username',
         message: 'What is your GitHub username?',
-        validate: (username) => {
-            if (!username.length) {
-              return 'Cannot be left blank. Please enter a username.'
-            }
-            return true;
-        } 
+        validate: (username) => (username.length ? true : 'Cannot be left blank. Please enter your GitHub username.'),
+    },
+    {
+        type: 'confirm',
+        name: 'includeEmail',
+        default: false,
+        message: 'Would you like to provide your email address as a point of contact?',
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Please provide your email address:',
+        when: (responses) => responses.includeEmail,
+        validate: (email) => (email.length ? true : 'Cannot be left blank. Please enter your email address.'),
     },
     {
         type: 'input',
         name: 'description',
-        message: 'Please briefly describe your project:',
-        validate: (description) => {
-            if (!description.length) {
-              return 'Cannot be left blank. Please enter a description.'
-            }
-            return true;
-        } 
+        message: 'Please enter a brief description of your project:',
+        validate: (description) => (description.length ? true : 'Cannot be left blank. Please enter a brief description of your project.'),
     },
     {
         type: 'input',
         name: 'installation',
-        message: 'Please briefly describe how to install the application:',
-        validate: (installation) => {
-            if (!installation.length) {
-              return 'Cannot be left blank. Please enter an installation guide.'
-            }
-            return true;
-        } 
+        message: 'Please briefly explain the installation process for your project:',
+        validate: (installation) => (installation.length ? true : 'Cannot be left blank. Please briefly explain the installation process.'),
     },
     {
         type: 'input',
         name: 'usage',
-        message: 'Please briefly describe how to use the application:',
-        validate: (usage) => {
-            if (!usage.length) {
-              return 'Cannot be left blank. Please enter a usage guide.'
-            }
-            return true;
-        } 
+        message: 'Please briefly explain how to use the application/project:',
+        validate: (usage) => (usage.length ? true : 'Cannot be left blank. Please enter a brief guide for usage.'),
+    },
+    {
+        type: 'confirm',
+        name: 'hasTests',
+        default: false,
+        message: 'Does your project include any tests?',
+    },
+    {
+        type: 'input',
+        name: 'tests',
+        message: 'Please briefly describe how to run the tests for your project:',
+        when: (responses) => responses.hasTests,
+        validate: (tests) => (tests.length ? true : 'Cannot be left blank. Please explain how someone can run the tests for your project.'),
     },
     {
         type: 'confirm',
@@ -108,8 +109,9 @@ const readmeQuestions = [
     {
         type: 'input',
         name: 'contribution',
-        message: 'Please briefly describe how someone can contribute to your project:',
+        message: 'Please briefly describe how someone may contribute to your project:',
         when: (responses) => responses.acceptingContribution,
+        validate: (contribution) => (contribution.length ? true : 'Cannot be left blank. Please describe how someone may contribute to your project.'),
     },
     {
         type: 'confirm',
@@ -120,11 +122,12 @@ const readmeQuestions = [
     {
         type: 'list',
         name: 'licenseType',
-        message: 'Please select the license that applies to your project:',
+        message: 'Please select the license that applies to your project from the following:',
         choices: licenseArray,
         default: 'MIT',
         when: (responses) => responses.includeLicense,
     },
+
 ];
 
 

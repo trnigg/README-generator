@@ -59,21 +59,23 @@ function renderLicenseSection(license) {
 //   `;
 // }
 
+// Avoided template literals because it seemed to add undesired linebreaks
 function renderTableOfContents(data) {
-  let tableofContents = `
-  - [Installation](#installation)
-  - [Usage](#usage)
-  `;
+  let tableofContents = '- [Installation](#installation)\n' + '- [Usage](#usage)\n';
   if (data.includeLicense) {
-    tableofContents += '- [License](#license)';
+    tableofContents += '- [License](#license)\n';
   }
-  tableofContents += `
-  - [Contribution](#contribution) 
-  - [Tests](#tests)
-  - [Questions](#questions)
-  `;
+  tableofContents += '- [Tests](#tests)\n' + '- [Contribution](#contribution)\n' + '- [Questions](#questions)';
   return tableofContents;
 }
+
+function renderTestSection(data) {
+  if (data.hasTests) {
+    return `${data.tests}`;
+  }
+  return `This project does not currently include any tests.`;
+}
+
 
 function renderContributionSection(data) {
   if (data.acceptingContribution) {
@@ -82,8 +84,13 @@ function renderContributionSection(data) {
   return `Thank you for your interest. However, I am not currently looking for any contributions towards this project.`;
 }
 
-function renderQuestionsSection(username) {
-  return `For any questions or feedback, please reach out to me on GitHub at [${username}](https://github.com/${username})`;
+function renderQuestionsSection(data) {
+  let questionsSection = `For any questions or feedback, please reach out to me on GitHub at [${data.username}](https://github.com/${data.username})`;
+  if (data.includeEmail) {
+    questionsSection += `, or via email at ${data.email}`;
+  }
+  questionsSection += '.';
+  return questionsSection;
 }
 
 
@@ -101,29 +108,42 @@ function generateMarkdown(data) {
   const tableofContents = renderTableOfContents(data).trim();
   const installationSection = data.installation.trim();
   const usageSection = data.usage.trim();
+  const testSection = renderTestSection(data).trim();
   const licenseSection = renderLicenseSection(data.licenseType).trim();
   const contributionSection = renderContributionSection(data).trim();
-  const questionsSection = renderQuestionsSection(data.username).trim();
+  const questionsSection = renderQuestionsSection(data).trim();
 
 
-  // Render to follow - note, does not follow indentation convention to avoid whitespaces in readme.
-  return `# ${title}
-${licenseBadge}
-## Description
-${descriptionSection}
-## Table of Contents
-${tableofContents}
-## Installation
-${installationSection}
-## Usage
-${usageSection}
-## Contribution
-${contributionSection}
-## Questions
-${questionsSection}
-${licenseSection}
-`;
+  // DEFINE
+  const generatedMarkdown = `# ${title}
+    ${licenseBadge}
+    ## Description
+    ${descriptionSection}
+
+    ## Table of Contents
+    ${tableofContents}
+
+    ## Installation
+    ${installationSection}
+
+    ## Usage
+    ${usageSection}
+
+    ## Tests
+    ${testSection}
+
+    ## Contribution
+    ${contributionSection}
+
+    ## Questions
+    ${questionsSection}
+
+    ${licenseSection}
+  `;
 // [TR] TODO - post-process remove the leading whitespaces on lines before returning
+//https://stackoverflow.com/questions/5799801/regular-expression-to-remove-space-in-the-beginning-of-each-line
+const formattedMarkdown = generatedMarkdown.replace(/^ +/gm, '');
+return formattedMarkdown;
 }
 
 module.exports = generateMarkdown;
