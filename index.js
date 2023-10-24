@@ -54,25 +54,38 @@ const readmeQuestions = [
         type: 'input',
         name: 'username',
         message: 'What is your GitHub username?',
-        validate: (username) => (username.length ? true : 'Cannot be left blank. Please enter a username.'),
+        validate: (username) => (username.length ? true : 'Cannot be left blank. Please enter your GitHub username.'),
+    },
+    {
+        type: 'confirm',
+        name: 'provideEmail',
+        default: false,
+        message: 'Would you like to provide your email address as a point of contact?',
+    },
+    {
+        type: 'input',
+        name: 'email',
+        message: 'Please provide your email address:',
+        when: (responses) => responses.provideEmail,
+        validate: (email) => (email.length ? true : 'Cannot be left blank. Please enter your email address.'),
     },
     {
         type: 'input',
         name: 'description',
-        message: 'Please briefly describe your project:',
-        validate: (description) => (description.length ? true : 'Cannot be left blank. Please enter a description.'),
+        message: 'Please enter a brief description of your project:',
+        validate: (description) => (description.length ? true : 'Cannot be left blank. Please enter a brief description of your project.'),
     },
     {
         type: 'input',
         name: 'installation',
-        message: 'Please briefly describe how to install the application:',
-        validate: (installation) => (installation.length ? true : 'Cannot be left blank. Please enter a installation.'),
+        message: 'Please briefly explain the installation process for your project:',
+        validate: (installation) => (installation.length ? true : 'Cannot be left blank. Please briefly explain the installation process.'),
     },
     {
         type: 'input',
         name: 'usage',
-        message: 'Please briefly describe how to use the application:',
-        validate: (usage) => (usage.length ? true : 'Cannot be left blank. Please enter a usage.'),
+        message: 'Please briefly explain how to use the application/project:',
+        validate: (usage) => (usage.length ? true : 'Cannot be left blank. Please enter a brief guide for usage.'),
     },
     {
         type: 'confirm',
@@ -83,8 +96,9 @@ const readmeQuestions = [
     {
         type: 'input',
         name: 'contribution',
-        message: 'Please briefly describe how someone can contribute to your project:',
+        message: 'Please briefly describe how someone may contribute to your project:',
         when: (responses) => responses.acceptingContribution,
+        validate: (contribution) => (contribution.length ? true : 'Cannot be left blank. Please describe how someone may contribute to your project.'),
     },
     {
         type: 'confirm',
@@ -95,10 +109,23 @@ const readmeQuestions = [
     {
         type: 'list',
         name: 'licenseType',
-        message: 'Please select the license that applies to your project:',
+        message: 'Please select the license that applies to your project from the following:',
         choices: licenseArray,
         default: 'MIT',
         when: (responses) => responses.includeLicense,
+    },
+    {
+        type: 'confirm',
+        name: 'hasTests',
+        default: false,
+        message: 'Does your project include any tests?',
+    },
+    {
+        type: 'input',
+        name: 'tests',
+        message: 'Please briefly describe how to run the tests for your project:',
+        when: (responses) => responses.hasTests,
+        validate: (tests) => (tests.length ? true : 'Cannot be left blank. Please explain how someone can run the tests for your project.'),
     },
 ];
 
