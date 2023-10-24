@@ -142,7 +142,7 @@ function askQuestions() {
                         writeToFile(responses);
                     });
             } else {
-                console.log(`${textColors.red}Ending the README generator.${textColors.end} Please feel free to start again by entering ${textColors.yellow}'node index.js'${textColors.end} in your console.`);
+                console.log(`${textColors.red}Ending the README generator.${textColors.end} Please feel free to start again by entering ${textColors.yellow}node index.js${textColors.end} in your console.`);
                 return;
             }
         });
@@ -155,11 +155,11 @@ function askQuestions() {
 
 // TODO: Create a function to write README file
 function writeToFile(responses) {
-    fs.writeFile('testME.md', generateMarkdown(responses), (err) => {
+    fs.writeFile('yourREADME.md', generateMarkdown(responses), (err) => {
         if (err) {
-          console.error('Error writing README file:', err);
+          console.error('Error writing your README file:', err);
         } else {
-          console.log('README.md generated successfully.');
+          console.log('yourREADME.md was successfully generated.');
         }
       });
 }
