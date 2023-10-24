@@ -41,63 +41,38 @@ const confirmInstructions =
 // This was helpful in introducing 'validate' and 'when' keys.
 
 // TODO [TN]: Confirm arrows are okay within this array/objects
-// FIX validation for 'confirm questions'
+// FIX validation for 'confirm questions'. Improve with eg: (title) => (title.length ? true : 'Cannot be left blank. Please enter a title.'),
 
 const readmeQuestions = [
     {
         type: 'input',
         name: 'title',
         message: 'What is the title of your project?',
-        validate: (title) => {
-            if (!title.length) {
-              return 'Cannot be left blank. Please enter a title.'
-            }
-            return true;
-        } 
+        validate: (title) => (title.length ? true : 'Cannot be left blank. Please enter a title.'),
     },
     {
         type: 'input',
         name: 'username',
         message: 'What is your GitHub username?',
-        validate: (username) => {
-            if (!username.length) {
-              return 'Cannot be left blank. Please enter a username.'
-            }
-            return true;
-        } 
+        validate: (username) => (username.length ? true : 'Cannot be left blank. Please enter a username.'),
     },
     {
         type: 'input',
         name: 'description',
         message: 'Please briefly describe your project:',
-        validate: (description) => {
-            if (!description.length) {
-              return 'Cannot be left blank. Please enter a description.'
-            }
-            return true;
-        } 
+        validate: (description) => (description.length ? true : 'Cannot be left blank. Please enter a description.'),
     },
     {
         type: 'input',
         name: 'installation',
         message: 'Please briefly describe how to install the application:',
-        validate: (installation) => {
-            if (!installation.length) {
-              return 'Cannot be left blank. Please enter an installation guide.'
-            }
-            return true;
-        } 
+        validate: (installation) => (installation.length ? true : 'Cannot be left blank. Please enter a installation.'),
     },
     {
         type: 'input',
         name: 'usage',
         message: 'Please briefly describe how to use the application:',
-        validate: (usage) => {
-            if (!usage.length) {
-              return 'Cannot be left blank. Please enter a usage guide.'
-            }
-            return true;
-        } 
+        validate: (usage) => (usage.length ? true : 'Cannot be left blank. Please enter a usage.'),
     },
     {
         type: 'confirm',
