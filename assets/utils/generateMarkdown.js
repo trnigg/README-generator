@@ -1,7 +1,7 @@
-// TODO: Create a function that returns a license badge based on which license is passed in
-// If there is no license, return an empty string
-// [TR] TODO: Refactor method, abbrev. license names
+// FUNCTION to render license badges using img.shields.io
+// In the future, could implement: https://www.npmjs.com/package/badge-maker
 function renderLicenseBadge(license) {
+  // DECLARE URL variations depending on badges
   const licenseBadges = {
     'GNU AGPLv3': 'AGPL_3.0' ,
     'GNU GPLv3': 'GPL_3.0',
@@ -11,17 +11,19 @@ function renderLicenseBadge(license) {
     'MIT License' : 'MIT' ,
     'Boost Software License 1.0' : 'BSL_1.0' ,
     'The Unlicense' : 'Unlicense' ,
-  } // Check if license is a key within object of licenseBadges and get the resulting badge URL and combine with link
+  } 
+  // CHECK IF license is a key within object of licenseBadges and combine value with URL; ELSE empty string
   if (licenseBadges[license]) {
   return `[![${license}](https://img.shields.io/badge/License-${licenseBadges[license]}-blue)](#license)`;
-  } 
+  } else {
   return '';
+  }
 }
 
-// TODO: Create a function that returns the license link
-// If there is no license, return an empty string
+// FUNCTION to create license info link
 function renderLicenseLink(license) {
-  const licenseLink = 'https://choosealicense.com/licenses/';
+  // DECLARE Root URL + appendages depending on license
+  let licenseLink = 'https://choosealicense.com/licenses/';
   const licenseAppendages = {
     'GNU AGPLv3': 'agpl-3.0/',
     'GNU GPLv3': 'gpl-3.0/',
@@ -32,78 +34,81 @@ function renderLicenseLink(license) {
     'Boost Software License 1.0' : 'bsl-1.0/',
     'The Unlicense' : 'unlicense/',
   }
-  // Check if license is a key within object of linkAppendages and get the resulting appendage and combine with link
+  // CHECK IF license is a key within object of linkAppendages, add value to link and return; ELSE empty string
   if (licenseAppendages[license]) {
-    //TODO : rather than template literal, add the appendage to the relevant license link
-    //maybe : licenseLink += licenseAppendages[license] - need to test before implementation
-    return `[${license}](${licenseLink}${licenseAppendages[license]})`;
+    licenseLink += licenseAppendages[license];
+    return licenseLink;
+  } else {
+    return '';
   }
-  return '';
 }
 
-// TODO: Create a function that returns the license section of README
-// If there is no license, return an empty string
-function renderLicenseSection(license) {
+// FUNCTION to create license section with license link
+  // CHECK IF license isn't undefined, then generate markdown with appropriate license link; ELSE empty string
+  function renderLicenseSection(license) {
   if (license) {
     return `
     ## License
-    This project is licensed under ${renderLicenseLink(license)}.
+    This project is licensed under [${license}](${renderLicenseLink(license)}).
     `;
+  } else {
+    return '';
   }
-  return '';
 }
 
-// function renderDescriptionSection(description) {
-//   return ` ## Description
-//   ${description}
-//   `;
-// }
-
-// Avoided template literals because it seemed to add undesired linebreaks
+// FUNCTION to render table of contents - License is a conditional inclusion at the end
+// NOTE: Avoided template literals because it seemed to add undesired linebreaks
 function renderTableOfContents(data) {
-  let tableofContents = '- [Installation](#installation)\n' + '- [Usage](#usage)\n';
+  let tableofContents = 
+    '- [Installation](#installation)\n' + 
+    '- [Usage](#usage)\n' +
+    '- [Tests](#tests)\n' +
+    '- [Contribution](#contribution)\n' +
+    '- [Questions](#questions)\n';
   if (data.includeLicense) {
-    tableofContents += '- [License](#license)\n';
+    tableofContents += '- [License](#license)';
   }
-  tableofContents += '- [Tests](#tests)\n' + '- [Contribution](#contribution)\n' + '- [Questions](#questions)';
   return tableofContents;
 }
 
+// FUNCTION to render Test section
 function renderTestSection(data) {
+  // CHECK IF hasTests is true, then generate markdown with Test content; ELSE placeholder text
   if (data.hasTests) {
     return `${data.tests}`;
+  } else {
+    return `This project does not currently include any tests.`;
   }
-  return `This project does not currently include any tests.`;
 }
 
-
+// FUNCTION to render Contribution section
 function renderContributionSection(data) {
+  // CHECK IF acceptingContribution is true, then generate markdown with Test content; ELSE placeholder text
   if (data.acceptingContribution) {
     return `${data.contribution}`;
   }
   return `Thank you for your interest. However, I am not currently looking for any contributions towards this project.`;
 }
 
+// FUNCTION to render Questions section - conditional inclusion of email 
 function renderQuestionsSection(data) {
+  // DECLARE boilderplate text
   let questionsSection = `For any questions or feedback, please reach out to me on GitHub at [${data.username}](https://github.com/${data.username})`;
+  // CHECK IF includeEmail is true, then generate additional markdown with email data
   if (data.includeEmail) {
     questionsSection += `, or via email at ${data.email}`;
   }
+  // Add full-stop to all scenarios and return the generated text.
   questionsSection += '.';
   return questionsSection;
 }
 
-
-
-
-
-
-// TODO: Create a function to generate markdown for README
+// FUNCTION to Generate markdown by combining all elements
 function generateMarkdown(data) {
-  // Declare and trim leading/trailing whitespaces for better readme (esp. when empty strings above are returned)
+  // DECLARE variables with new data and/or call above functions with data from index.js
+  // trim leading/trailing whitespaces for better readme (esp. when empty strings above are returned)
   const title = data.title.trim();
   const licenseBadge = renderLicenseBadge(data.licenseType).trim();
-  // const description = renderDescriptionSection(data.description).trim();
   const descriptionSection = data.description.trim();
   const tableofContents = renderTableOfContents(data).trim();
   const installationSection = data.installation.trim();
@@ -113,8 +118,7 @@ function generateMarkdown(data) {
   const contributionSection = renderContributionSection(data).trim();
   const questionsSection = renderQuestionsSection(data).trim();
 
-
-  // DEFINE
+  // DECLARE variable to contain the generated string using template literals and variables above
   const generatedMarkdown = `# ${title}
     ${licenseBadge}
     ## Description
@@ -140,12 +144,12 @@ function generateMarkdown(data) {
 
     ${licenseSection}
   `;
-// [TR] TODO - post-process remove the leading whitespaces on lines before returning
-//https://stackoverflow.com/questions/5799801/regular-expression-to-remove-space-in-the-beginning-of-each-line
+
+// Post-process to remove the leading whitespaces on lines using Regex
+// https://stackoverflow.com/questions/5799801/regular-expression-to-remove-space-in-the-beginning-of-each-line
 const formattedMarkdown = generatedMarkdown.replace(/^ +/gm, '');
 return formattedMarkdown;
 }
 
+// Export key function for use in index.js
 module.exports = generateMarkdown;
-
-// https://www.npmjs.com/package/badge-maker
