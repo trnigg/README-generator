@@ -32,7 +32,8 @@ To use the application:
 5. The last questions are regarding the **license** for your project. Once you complete these, a **markdown** file titled `yourREADME.md` will be created in the directory you are in, and filled with your specified content.
     - Note: you can repeat this process from **Step 1**, but if you do not rename the generated file, or `yourREADME.md` already exists in your directory, it will overwrite the contents of the file.
 
-For a walkthrough of the **usage** process, please watch the video at the following link:
+>Please click [here](https://drive.google.com/file/d/1FHw_P7-TBlXn5sWdn1mgUA5lwPY8jM_-/view) to watch a video-walkthrough of the **usage** process.  
+>The repo also contains the [example README](./assets/exampleREADME.md) generated in the above walkthrough.
 
 ## Roadmap / Know Bugs
 The following is a non-exhaustive list of items I would like to address with more development time in the future:
@@ -43,7 +44,7 @@ The following is a non-exhaustive list of items I would like to address with mor
 
 ## License
 - This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit).
-- Please refer to the license section in the repo for further information.
+- Please refer to the [license](./LICENSE) section in the repo for further information.
 
 ## Questions
 - For any questions, issues or feedback, please reach out to me on GitHub at [trnigg](https://github.com/trnigg/).
