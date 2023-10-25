@@ -1,7 +1,7 @@
 // TODO: Include packages needed for this application
 var inquirer = require('inquirer');
 var fs = require('fs');
-const generateMarkdown = require('./utils/generateMarkdown');
+const generateMarkdown = require('./assets/utils/generateMarkdown');
 
 
 // GLOBAL VARIABLES for console text colours. Combined Module 9 Activity 22 with colour numbers found here: 
